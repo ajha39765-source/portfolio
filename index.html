@@ -6,22 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Abhishek Jha | Laravel Developer</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
-
     <style>
+        :root {
+            --bg: #0a0e13;
+            --bg-alt: #0d1219;
+            --surface: #121922;
+            --surface-2: #182130;
+            --border: #232e3b;
+            --border-soft: #1a2330;
+            --text: #e7edf4;
+            --text-dim: #93a1b0;
+            --text-faint: #58697b;
+            --amber: #f2a93b;
+            --amber-soft: rgba(242, 169, 59, 0.12);
+            --teal: #56d1c2;
+        }
+
         * {
+            box-sizing: border-box;
             scroll-behavior: smooth;
         }
 
-        body {
+        html, body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
             font-family: 'Inter', sans-serif;
-            background: #050816;
             overflow-x: hidden;
         }
 
@@ -29,601 +45,589 @@
             font-family: 'Space Grotesk', sans-serif;
         }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ---------- background texture ---------- */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-image:
+                linear-gradient(rgba(242, 169, 59, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(242, 169, 59, 0.035) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 40%, transparent 90%);
         }
 
         .glow {
-            position: absolute;
-            width: 500px;
-            height: 500px;
+            position: fixed;
+            width: 640px;
+            height: 640px;
             border-radius: 9999px;
-            filter: blur(120px);
-            opacity: 0.25;
+            filter: blur(150px);
+            opacity: 0.16;
             z-index: -1;
+            background: var(--amber);
+        }
+
+        /* ---------- shared components ---------- */
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 0.02em;
+            color: var(--amber);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 18px;
+            height: 1px;
+            background: var(--amber);
+            display: inline-block;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .window {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .window-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 26px;
+            border-radius: 10px;
+            background: var(--amber);
+            color: #10151c;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            transition: 0.25s ease;
+            border: 1px solid var(--amber);
+        }
+
+        .btn-primary:hover {
+            background: #ffbf5c;
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 26px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            transition: 0.25s ease;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--amber);
+            color: var(--amber);
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            background: var(--amber-soft);
+            color: var(--amber);
+            border: 1px solid rgba(242, 169, 59, 0.25);
         }
 
         .fade-up {
-            animation: fadeUp 1s ease forwards;
+            animation: fadeUp 0.9s ease forwards;
+            opacity: 0;
         }
 
         @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(60px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .card-hover {
-            transition: 0.4s ease;
+            transition: 0.35s ease;
         }
 
         .card-hover:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+            transform: translateY(-6px);
+            border-color: rgba(242, 169, 59, 0.35);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
         }
 
-        .gradient-text {
-            background: linear-gradient(to right, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .cursor {
+            display: inline-block;
+            width: 9px;
+            height: 1.1em;
+            background: var(--amber);
+            margin-left: 3px;
+            vertical-align: text-bottom;
+            animation: blink 1s steps(1) infinite;
         }
 
-        .skill-bar {
-            animation: loadBar 2s ease;
+        @keyframes blink {
+            50% { opacity: 0; }
         }
 
-        @keyframes loadBar {
-            from {
-                width: 0;
-            }
+        .bar-track {
+            height: 6px;
+            background: var(--border-soft);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--amber-dim, #c9860f), var(--amber));
+        }
+
+        /* ---------- nav ---------- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 50;
+            border-bottom: 1px solid var(--border-soft);
+            background: rgba(10, 14, 19, 0.78);
+            backdrop-filter: blur(16px);
+        }
+
+        .navlink {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13.5px;
+            color: var(--text-dim);
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        .navlink:hover {
+            color: var(--amber);
+        }
+
+        section { position: relative; }
+
+        code.kw { color: var(--amber); }
+        code.str { color: var(--teal); }
+        code.cm { color: var(--text-faint); }
+
+        @media (max-width: 900px) {
+            .hide-mobile { display: none; }
         }
     </style>
 </head>
 
-<body class="text-white">
+<body>
 
-    <!-- Background Blur -->
-    <div class="glow bg-indigo-600 top-0 left-0"></div>
-    <div class="glow bg-purple-600 bottom-0 right-0"></div>
+    <div class="bg-grid"></div>
+    <div class="glow" style="top:-200px; left:-200px;"></div>
+    <div class="glow" style="bottom:-200px; right:-250px; opacity:0.10;"></div>
 
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-black/30 backdrop-blur-xl">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+    <nav>
+        <div class="container flex justify-between items-center" style="padding-top:18px; padding-bottom:18px;">
 
-            <h1 class="text-2xl font-black heading">
-                Abhishek<span class="text-indigo-400">.</span>
-            </h1>
+            <a href="#" class="heading font-bold text-xl flex items-center gap-2">
+                <span class="mono text-sm" style="color:var(--amber);">~/</span>
+                Abhishek<span style="color:var(--amber);">.jha</span>
+            </a>
 
-            <div class="hidden md:flex gap-8 text-sm font-medium">
-                <a href="#about" class="hover:text-indigo-400 transition">About</a>
-                <a href="#skills" class="hover:text-indigo-400 transition">Skills</a>
-                <a href="#projects" class="hover:text-indigo-400 transition">Projects</a>
-                <a href="#services" class="hover:text-indigo-400 transition">Services</a>
-                <a href="#contact" class="hover:text-indigo-400 transition">Contact</a>
+            <div class="hidden md:flex gap-9 items-center">
+                <a href="#about" class="navlink">01_about</a>
+                <a href="#skills" class="navlink">02_skills</a>
+                <a href="#projects" class="navlink">03_projects</a>
+                <a href="#services" class="navlink">04_services</a>
+                <a href="#contact" class="navlink">05_contact</a>
             </div>
 
-            <a href="#contact"
-                class="px-5 py-3 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 font-semibold hover:scale-105 transition duration-300">
-                Hire Me
+            <a href="#contact" class="btn-primary hide-mobile">
+                <i class="fa-solid fa-terminal" style="font-size:12px;"></i> Hire Me
             </a>
 
         </div>
     </nav>
 
     <!-- Hero -->
-    <section class="min-h-screen flex items-center relative pt-28">
+    <section class="min-h-screen flex items-center pt-32 pb-20">
+        <div class="container grid lg:grid-cols-2 gap-16 items-center">
 
-        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Left: terminal -->
+            <div class="fade-up" style="animation-delay:0.05s;">
 
-            <!-- Left -->
-            <div class="fade-up">
+                <p class="eyebrow mb-6">FULL STACK LARAVEL DEVELOPER</p>
 
-                <p class="uppercase tracking-[6px] text-indigo-400 text-sm mb-5">
-                    Full Stack Laravel Developer
-                </p>
-
-                <h1 class="text-6xl md:text-8xl font-black leading-none heading">
-
-                    Building
-                    <span class="gradient-text">
-                        Modern
-                    </span>
-
-                    Web Experiences
-
+                <h1 class="heading font-bold leading-[1.05]" style="font-size:clamp(2.6rem, 5vw, 4.1rem);">
+                    I build backend<br>
+                    systems that <span style="color:var(--amber);">don't break</span>
+                    <span style="color:var(--amber);"> at 2am.</span>
                 </h1>
 
-                <p class="mt-8 text-zinc-400 text-xl leading-relaxed max-w-2xl">
-
-                    I build premium Laravel applications with modern UI,
-                    scalable backend systems, REST APIs,
-                    dashboards, booking systems, CRM platforms,
-                    and business automation tools.
-
+                <p class="mt-7 text-lg leading-relaxed" style="color:var(--text-dim); max-width:34rem;">
+                    Laravel applications with clean architecture, REST APIs, dashboards,
+                    booking systems, CRM platforms, and the automation tools that keep
+                    a business running quietly in the background.
                 </p>
 
-                <div class="flex flex-wrap gap-5 mt-10">
-
-                    <a href="#projects"
-                        class="px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 font-semibold hover:scale-105 transition duration-300 shadow-2xl">
-
-                        View Projects
-
+                <div class="flex flex-wrap gap-4 mt-10">
+                    <a href="#projects" class="btn-primary">
+                        <i class="fa-solid fa-folder-open"></i> View Projects
                     </a>
-
-                    <a href="#contact"
-                        class="px-8 py-4 rounded-2xl border border-white/10 glass hover:border-indigo-500 transition">
-
-                        Contact Me
-
+                    <a href="#contact" class="btn-ghost">
+                        $ contact --me
                     </a>
-
                 </div>
 
-                <div class="flex gap-6 mt-10 text-2xl">
-
-                    
-
-                    <a href="https://www.linkedin.com/in/abhishek-kumar-jha-67265019a/" class="hover:text-indigo-400 transition">
+                <div class="flex gap-5 mt-10 text-xl">
+                    <a href="https://www.linkedin.com/in/abhishek-kumar-jha-67265019a/"
+                        style="color:var(--text-dim);" class="hover:text-amber-400 navlink">
                         <i class="fab fa-linkedin"></i>
                     </a>
-
-                   
-
                 </div>
-
             </div>
 
-            <!-- Right -->
-            <div class="flex justify-center fade-up">
-
-                <div class="relative">
-
-                    <div
-                        class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 blur-3xl opacity-30 rounded-full">
+            <!-- Right: IDE window -->
+            <div class="fade-up" style="animation-delay:0.2s;">
+                <div class="window" style="box-shadow:0 30px 70px rgba(0,0,0,0.55);">
+                    <div class="window-bar">
+                        <span class="dot" style="background:#ff5f57;"></span>
+                        <span class="dot" style="background:#febc2e;"></span>
+                        <span class="dot" style="background:#28c840;"></span>
+                        <span class="mono text-xs ml-3" style="color:var(--text-faint);">developer.php</span>
                     </div>
 
-                    <img src="me.jpeg"
-                        class="relative w-[400px] h-[500px] object-cover rounded-[40px] border border-white/10 shadow-2xl"
-                        alt="Abhishek Jha">
+                    <div class="p-6">
+                        <img src="me.jpeg"
+                            class="w-full h-[300px] object-cover rounded-lg border"
+                            style="border-color:var(--border);" alt="Abhishek Jha">
 
+                        <pre class="mono text-[13px] leading-relaxed mt-5" style="color:var(--text-dim); white-space:pre-wrap;"><code class="kw">class</code> Developer <code class="kw">extends</code> Laravel
+{
+    <code class="kw">protected</code> $stack = [<code class="str">'PHP'</code>, <code class="str">'MySQL'</code>, <code class="str">'Tailwind'</code>];
+    <code class="kw">protected</code> $based = <code class="str">'India'</code>;
+
+    <code class="cm">// currently open to freelance work</code>
+}</code></pre>
+                    </div>
                 </div>
-
             </div>
 
         </div>
-
     </section>
 
-    <!-- About -->
-    <!-- <section id="about" class="py-28">
-
-        <div class="max-w-7xl mx-auto px-6">
-
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-
-                <div>
-                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1200&auto=format&fit=crop"
-                        class="rounded-[35px] shadow-2xl border border-white/10">
-                </div>
-
-                <div>
-
-                    <p class="text-indigo-400 font-semibold mb-3">
-                        ABOUT ME
-                    </p>
-
-                    <h2 class="text-5xl font-black heading mb-8">
-                        Passionate About Building Digital Products
-                    </h2>
-
-                    <p class="text-zinc-400 leading-relaxed text-lg mb-6">
-
-                        I'm a Laravel developer focused on creating powerful
-                        business applications with clean backend architecture
-                        and beautiful frontend experiences.
-
-                    </p>
-
-                    <p class="text-zinc-400 leading-relaxed text-lg mb-10">
-
-                        I work on CRM systems, logistics software,
-                        admin dashboards, booking platforms,
-                        APIs, automation tools, and scalable web solutions.
-
-                    </p>
-
-                    <div class="grid grid-cols-3 gap-6">
-
-                        <div class="glass rounded-3xl p-6 text-center">
-                            <h3 class="text-4xl font-black text-indigo-400">
-                                30+
-                            </h3>
-                            <p class="text-zinc-400 text-sm mt-2">
-                                Projects
-                            </p>
-                        </div>
-
-                        <div class="glass rounded-3xl p-6 text-center">
-                            <h3 class="text-4xl font-black text-indigo-400">
-                                3+
-                            </h3>
-                            <p class="text-zinc-400 text-sm mt-2">
-                                Years Exp
-                            </p>
-                        </div>
-
-                        <div class="glass rounded-3xl p-6 text-center">
-                            <h3 class="text-4xl font-black text-indigo-400">
-                                15+
-                            </h3>
-                            <p class="text-zinc-400 text-sm mt-2">
-                                Clients
-                            </p>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section> -->
-
     <!-- Skills -->
-    <section id="skills" class="py-28 bg-black/30">
+    <section id="skills" class="py-28" style="background:var(--bg-alt); border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft);">
+        <div class="container">
 
-        <div class="max-w-7xl mx-auto px-6">
-
-            <div class="text-center mb-20">
-
-                <p class="text-indigo-400 font-semibold mb-4">
-                    MY SKILLS
-                </p>
-
-                <h2 class="text-5xl font-black heading">
+            <div class="mb-16">
+                <p class="eyebrow mb-4">02 · SCHEMA</p>
+                <h2 class="heading font-bold" style="font-size:clamp(2rem, 3.5vw, 2.75rem);">
                     Technologies I Use
                 </h2>
-
             </div>
 
-            <div class="grid md:grid-cols-2 gap-10">
+            <div class="window">
+                <div class="window-bar">
+                    <span class="dot" style="background:#ff5f57;"></span>
+                    <span class="dot" style="background:#febc2e;"></span>
+                    <span class="dot" style="background:#28c840;"></span>
+                    <span class="mono text-xs ml-3" style="color:var(--text-faint);">skills.sql — DESCRIBE stack;</span>
+                </div>
 
-                <!-- Skill -->
-                <div class="glass p-8 rounded-3xl">
-
-                    <div class="flex justify-between mb-3">
-                        <span>Laravel</span>
-                        <span>95%</span>
+                <div class="p-2 sm:p-6">
+                    <div class="grid grid-cols-12 mono text-xs uppercase tracking-wider px-4 py-3" style="color:var(--text-faint); border-bottom:1px solid var(--border);">
+                        <div class="col-span-4 sm:col-span-3">Field</div>
+                        <div class="col-span-8 sm:col-span-3 hide-mobile">Type</div>
+                        <div class="col-span-8 sm:col-span-6">Proficiency</div>
                     </div>
 
-                    <div class="h-3 bg-zinc-800 rounded-full overflow-hidden">
-                        <div
-                            class="skill-bar h-full w-[95%] bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full">
+                    <!-- rows -->
+                    <div class="grid grid-cols-12 items-center px-4 py-5" style="border-bottom:1px solid var(--border-soft);">
+                        <div class="col-span-4 sm:col-span-3 font-semibold">Laravel</div>
+                        <div class="col-span-3 mono text-sm hide-mobile" style="color:var(--teal);">framework</div>
+                        <div class="col-span-8 sm:col-span-6 flex items-center gap-4">
+                            <div class="bar-track flex-1"><div class="bar-fill" style="width:95%;"></div></div>
+                            <span class="mono text-xs" style="color:var(--text-faint);">95%</span>
                         </div>
                     </div>
 
-                </div>
-
-                <div class="glass p-8 rounded-3xl">
-
-                    <div class="flex justify-between mb-3">
-                        <span>PHP</span>
-                        <span>92%</span>
-                    </div>
-
-                    <div class="h-3 bg-zinc-800 rounded-full overflow-hidden">
-                        <div
-                            class="skill-bar h-full w-[92%] bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full">
+                    <div class="grid grid-cols-12 items-center px-4 py-5" style="border-bottom:1px solid var(--border-soft);">
+                        <div class="col-span-4 sm:col-span-3 font-semibold">PHP</div>
+                        <div class="col-span-3 mono text-sm hide-mobile" style="color:var(--teal);">language</div>
+                        <div class="col-span-8 sm:col-span-6 flex items-center gap-4">
+                            <div class="bar-track flex-1"><div class="bar-fill" style="width:92%;"></div></div>
+                            <span class="mono text-xs" style="color:var(--text-faint);">92%</span>
                         </div>
                     </div>
 
-                </div>
-
-                <div class="glass p-8 rounded-3xl">
-
-                    <div class="flex justify-between mb-3">
-                        <span>MySQL</span>
-                        <span>90%</span>
-                    </div>
-
-                    <div class="h-3 bg-zinc-800 rounded-full overflow-hidden">
-                        <div
-                            class="skill-bar h-full w-[90%] bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full">
+                    <div class="grid grid-cols-12 items-center px-4 py-5" style="border-bottom:1px solid var(--border-soft);">
+                        <div class="col-span-4 sm:col-span-3 font-semibold">MySQL</div>
+                        <div class="col-span-3 mono text-sm hide-mobile" style="color:var(--teal);">database</div>
+                        <div class="col-span-8 sm:col-span-6 flex items-center gap-4">
+                            <div class="bar-track flex-1"><div class="bar-fill" style="width:90%;"></div></div>
+                            <span class="mono text-xs" style="color:var(--text-faint);">90%</span>
                         </div>
                     </div>
 
-                </div>
-
-                <div class="glass p-8 rounded-3xl">
-
-                    <div class="flex justify-between mb-3">
-                        <span>Tailwind CSS</span>
-                        <span>88%</span>
-                    </div>
-
-                    <div class="h-3 bg-zinc-800 rounded-full overflow-hidden">
-                        <div
-                            class="skill-bar h-full w-[88%] bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full">
+                    <div class="grid grid-cols-12 items-center px-4 py-5">
+                        <div class="col-span-4 sm:col-span-3 font-semibold">Tailwind CSS</div>
+                        <div class="col-span-3 mono text-sm hide-mobile" style="color:var(--teal);">styling</div>
+                        <div class="col-span-8 sm:col-span-6 flex items-center gap-4">
+                            <div class="bar-track flex-1"><div class="bar-fill" style="width:88%;"></div></div>
+                            <span class="mono text-xs" style="color:var(--text-faint);">88%</span>
                         </div>
                     </div>
-
                 </div>
-
             </div>
 
         </div>
-
     </section>
 
     <!-- Projects -->
     <section id="projects" class="py-28">
+        <div class="container">
 
-        <div class="max-w-7xl mx-auto px-6">
-
-            <div class="text-center mb-20">
-
-                <p class="text-indigo-400 font-semibold mb-4">
-                    PORTFOLIO
-                </p>
-
-                <h2 class="text-5xl font-black heading">
+            <div class="mb-16">
+                <p class="eyebrow mb-4">03 · REPOSITORY</p>
+                <h2 class="heading font-bold" style="font-size:clamp(2rem, 3.5vw, 2.75rem);">
                     Featured Projects
                 </h2>
-
             </div>
 
-            <div class="grid lg:grid-cols-3 gap-10">
+            <div class="grid lg:grid-cols-3 gap-8">
 
-                <!-- Project -->
-                <div class="glass rounded-[30px] overflow-hidden card-hover">
+                <!-- Project 1 -->
+                <div class="window card-hover">
+                    <div class="window-bar">
+                        <span class="dot" style="background:#ff5f57;"></span>
+                        <span class="dot" style="background:#febc2e;"></span>
+                        <span class="dot" style="background:#28c840;"></span>
+                        <span class="mono text-xs ml-3" style="color:var(--text-faint);">tracklietnow.php</span>
+                    </div>
 
                     <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1200&auto=format&fit=crop"
-                        class="h-64 w-full object-cover">
+                        class="h-52 w-full object-cover">
 
-                    <div class="p-8">
-
-                        <h3 class="text-2xl font-bold mb-4">
-                            TacklietNoW CRM
-                        </h3>
-
-                        <p class="text-zinc-400 mb-6 leading-relaxed">
-                            Developed TrackLiETNow, a Laravel-based Home Service Management platform that streamlines
-                            client management, job scheduling, service requests, technician assignments, invoicing,
-                            payment tracking, PDF generation, email notifications, and administrative dashboards.
+                    <div class="p-7">
+                        <h3 class="heading text-xl font-bold mb-3">TrackLietNow CRM</h3>
+                        <p class="text-sm leading-relaxed mb-6" style="color:var(--text-dim);">
+                            A Laravel-based home service management platform streamlining client
+                            management, job scheduling, technician assignments, invoicing, payments,
+                            PDF generation, and admin dashboards.
                         </p>
-
-                        <div class="flex gap-3 flex-wrap">
-
-                            <span class="px-4 py-2 bg-white/5 rounded-xl text-sm">
-                                Laravel
-                            </span>
-
-                            <span class="px-4 py-2 bg-white/5 rounded-xl text-sm">
-                                MySQL
-                            </span>
-
-                            <span class="px-4 py-2 bg-white/5 rounded-xl text-sm">
-                                Tailwind
-                            </span>
-
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="tag">Laravel</span>
+                            <span class="tag">MySQL</span>
+                            <span class="tag">Tailwind</span>
                         </div>
-
                     </div>
-
                 </div>
 
-                <!-- Project -->
-                <div class="glass rounded-[30px] overflow-hidden card-hover">
+                <!-- Project 2 -->
+                <div class="window card-hover">
+                    <div class="window-bar">
+                        <span class="dot" style="background:#ff5f57;"></span>
+                        <span class="dot" style="background:#febc2e;"></span>
+                        <span class="dot" style="background:#28c840;"></span>
+                        <span class="mono text-xs ml-3" style="color:var(--text-faint);">allrite-pharma.php</span>
+                    </div>
 
                     <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop"
-                        class="h-64 w-full object-cover">
+                        class="h-52 w-full object-cover">
 
-                    <div class="p-8">
-
-                        <h3 class="text-2xl font-bold mb-4">
-                           Allrite pharmaceutical
-                        </h3>
-
-                        <p class="text-zinc-400 mb-6 leading-relaxed">
-                            Developed and maintained the corporate website for Allrite Pharma, a leading pharmaceutical manufacturing company. Implemented responsive user interfaces, product showcase pages, inquiry forms, SEO-friendly layouts, and content management features to enhance the company's online presence and customer engagement.
+                    <div class="p-7">
+                        <h3 class="heading text-xl font-bold mb-3">Allrite Pharmaceutical</h3>
+                        <p class="text-sm leading-relaxed mb-6" style="color:var(--text-dim);">
+                            Corporate website for a pharmaceutical manufacturer, with responsive
+                            product showcase pages, inquiry forms, SEO-friendly layouts, and
+                            content management features.
                         </p>
-
-                        <div class="flex gap-3 flex-wrap">
-
-                            <span class="px-4 py-2 bg-white/5 rounded-xl text-sm">
-                                Laravel
-                            </span>
-
-                            <span class="px-4 py-2 bg-white/5 rounded-xl text-sm">
-                                mysql
-                            </span>
-
-                            <span class="px-4 py-2 bg-white/5 rounded-xl text-sm">
-                                Bootstrap
-                            </span>
-
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="tag">Laravel</span>
+                            <span class="tag">MySQL</span>
+                            <span class="tag">Bootstrap</span>
                         </div>
-
                     </div>
-
                 </div>
 
-                <!-- Project -->
-                <div class="glass rounded-[30px] overflow-hidden card-hover">
-
-                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
-                        class="h-64 w-full object-cover">
-
-                    <div class="p-8">
-
-                        <h3 class="text-2xl font-bold mb-4">
-                           The Hack Stack
-                        </h3>
-
-                        <p class="text-zinc-400 mb-6 leading-relaxed">
-                         Developed a product discovery and community platform that enables founders and makers to showcase, discover, and promote innovative products. Built features including product submissions, category management, search functionality, user engagement, responsive design, and an admin dashboard for content moderation and platform management.
-                        </p>
-
-                        <div class="flex gap-3 flex-wrap">
-
-                            <span class="px-4 py-2 bg-white/5 rounded-xl text-sm">
-                               Laravel
-                            </span>
-
-                            <span class="px-4 py-2 bg-white/5 rounded-xl text-sm">
-                              Mysql
-                            </span>
-
-                            <span class="px-4 py-2 bg-white/5 rounded-xl text-sm">
-                               Bootstrap
-                            </span>
-
-                        </div>
-
+                <!-- Project 3 -->
+                <div class="window card-hover">
+                    <div class="window-bar">
+                        <span class="dot" style="background:#ff5f57;"></span>
+                        <span class="dot" style="background:#febc2e;"></span>
+                        <span class="dot" style="background:#28c840;"></span>
+                        <span class="mono text-xs ml-3" style="color:var(--text-faint);">the-hack-stack.php</span>
                     </div>
 
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
+                        class="h-52 w-full object-cover">
+
+                    <div class="p-7">
+                        <h3 class="heading text-xl font-bold mb-3">The Hack Stack</h3>
+                        <p class="text-sm leading-relaxed mb-6" style="color:var(--text-dim);">
+                            A product discovery and community platform for founders and makers,
+                            with submissions, category management, search, and an admin dashboard
+                            for content moderation.
+                        </p>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="tag">Laravel</span>
+                            <span class="tag">MySQL</span>
+                            <span class="tag">Bootstrap</span>
+                        </div>
+                    </div>
                 </div>
 
             </div>
-
         </div>
-
     </section>
 
     <!-- Services -->
-    <section id="services" class="py-28 bg-black/30">
+    <section id="services" class="py-28" style="background:var(--bg-alt); border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft);">
+        <div class="container">
 
-        <div class="max-w-7xl mx-auto px-6">
-
-            <div class="text-center mb-20">
-
-                <p class="text-indigo-400 font-semibold mb-4">
-                    SERVICES
-                </p>
-
-                <h2 class="text-5xl font-black heading">
+            <div class="mb-16">
+                <p class="eyebrow mb-4">04 · FUNCTIONS</p>
+                <h2 class="heading font-bold" style="font-size:clamp(2rem, 3.5vw, 2.75rem);">
                     What I Can Build
                 </h2>
-
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid md:grid-cols-3 gap-7">
 
-                <div class="glass p-10 rounded-[30px] card-hover">
-
-                    <i class="fa-solid fa-code text-4xl text-indigo-400 mb-8"></i>
-
-                    <h3 class="text-2xl font-bold mb-5">
-                        Web Applications
-                    </h3>
-
-                    <p class="text-zinc-400 leading-relaxed">
-                        Custom Laravel applications with scalable architecture
-                        and secure backend systems.
+                <div class="card card-hover p-8">
+                    <div class="mono text-xs mb-6" style="color:var(--teal);">function()</div>
+                    <i class="fa-solid fa-code text-3xl mb-6" style="color:var(--amber);"></i>
+                    <h3 class="heading text-xl font-bold mb-3">buildWebApp()</h3>
+                    <p class="text-sm leading-relaxed" style="color:var(--text-dim);">
+                        Custom Laravel applications with scalable architecture and secure
+                        backend systems, built to grow with the business.
                     </p>
-
                 </div>
 
-                <div class="glass p-10 rounded-[30px] card-hover">
-
-                    <i class="fa-solid fa-chart-line text-4xl text-indigo-400 mb-8"></i>
-
-                    <h3 class="text-2xl font-bold mb-5">
-                        Admin Dashboards
-                    </h3>
-
-                    <p class="text-zinc-400 leading-relaxed">
-                        Modern dashboards with analytics, reports,
-                        user roles, and automation.
+                <div class="card card-hover p-8">
+                    <div class="mono text-xs mb-6" style="color:var(--teal);">function()</div>
+                    <i class="fa-solid fa-chart-line text-3xl mb-6" style="color:var(--amber);"></i>
+                    <h3 class="heading text-xl font-bold mb-3">buildDashboard()</h3>
+                    <p class="text-sm leading-relaxed" style="color:var(--text-dim);">
+                        Admin dashboards with analytics, reports, role-based access,
+                        and the automation that removes repetitive manual work.
                     </p>
-
                 </div>
 
-                <div class="glass p-10 rounded-[30px] card-hover">
-
-                    <i class="fa-solid fa-server text-4xl text-indigo-400 mb-8"></i>
-
-                    <h3 class="text-2xl font-bold mb-5">
-                        API Development
-                    </h3>
-
-                    <p class="text-zinc-400 leading-relaxed">
-                        RESTful API development and third-party integrations
-                        for mobile and web platforms.
+                <div class="card card-hover p-8">
+                    <div class="mono text-xs mb-6" style="color:var(--teal);">function()</div>
+                    <i class="fa-solid fa-server text-3xl mb-6" style="color:var(--amber);"></i>
+                    <h3 class="heading text-xl font-bold mb-3">buildApi()</h3>
+                    <p class="text-sm leading-relaxed" style="color:var(--text-dim);">
+                        RESTful API development and third-party integrations that
+                        connect mobile apps, web platforms, and partner systems.
                     </p>
-
                 </div>
 
             </div>
-
         </div>
-
     </section>
 
     <!-- Contact -->
     <section id="contact" class="py-28">
+        <div class="container" style="max-width:820px;">
 
-        <div class="max-w-4xl mx-auto px-6">
-
-            <div class="glass rounded-[40px] p-12 text-center">
-
-                <p class="text-indigo-400 font-semibold mb-4">
-                    CONTACT
-                </p>
-
-                <h2 class="text-5xl font-black heading mb-6">
-                    Let's Build Something Amazing
-                </h2>
-
-                <p class="text-zinc-400 text-lg mb-10">
-                    Available for freelance work, Laravel development,
-                    dashboards, and business web applications.
-                </p>
-
-                <div class="flex flex-wrap justify-center gap-5">
-
-                    <!-- <a href="mailto:your@email.com"
-                        class="px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 font-semibold hover:scale-105 transition duration-300">
-
-                        Send Email
-
-                    </a> -->
-
-                    <a href="resume_abhishek.pdf" download
-                        class="px-8 py-4 rounded-2xl border border-white/10 glass hover:border-indigo-500 transition">
-
-                        Download Resume
-
-                    </a>
-
+            <div class="window" style="box-shadow:0 30px 70px rgba(0,0,0,0.5);">
+                <div class="window-bar">
+                    <span class="dot" style="background:#ff5f57;"></span>
+                    <span class="dot" style="background:#febc2e;"></span>
+                    <span class="dot" style="background:#28c840;"></span>
+                    <span class="mono text-xs ml-3" style="color:var(--text-faint);">contact.sh</span>
                 </div>
 
+                <div class="p-10 sm:p-14 text-center">
+                    <p class="eyebrow mb-6 justify-center">05 · CONTACT</p>
+
+                    <h2 class="heading font-bold mb-6" style="font-size:clamp(2rem, 4vw, 2.75rem);">
+                        Let's Build Something<br>That <span style="color:var(--amber);">Actually Works</span>
+                    </h2>
+
+                    <p class="mb-10" style="color:var(--text-dim); font-size:1.05rem;">
+                        Available for freelance work — Laravel development, dashboards,
+                        and business web applications.
+                    </p>
+
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="resume_abhishek.pdf" download class="btn-primary">
+                            <i class="fa-solid fa-download"></i> Download Resume
+                        </a>
+                        <a href="https://www.linkedin.com/in/abhishek-kumar-jha-67265019a/" class="btn-ghost">
+                            <i class="fab fa-linkedin"></i> Connect on LinkedIn
+                        </a>
+                    </div>
+                </div>
             </div>
 
         </div>
-
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-white/10 py-10 text-center text-zinc-500">
-
-        <p>
-            © 2026 Abhishek Jha • Laravel Developer • India
-        </p>
-
+    <footer class="py-10 text-center mono text-xs" style="color:var(--text-faint); border-top:1px solid var(--border-soft);">
+        <p>// © 2026 Abhishek Jha · Laravel Developer · India</p>
     </footer>
 
-</body>
+    <script>
+        // simple staggered reveal for elements as they enter viewport
+        const revealables = document.querySelectorAll('.card, .window');
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
 
+        revealables.forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            io.observe(el);
+        });
+    </script>
+
+</body>
 </html>
